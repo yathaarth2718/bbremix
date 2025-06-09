@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjskas4066w12"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8cj0n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uwrxv"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Paddle" type="CharacterBody2D" parent="."]
+
+[node name="Paddle_col" type="CollisionShape2D" parent="Paddle"]
+shape = SubResource("RectangleShape2D_8cj0n")
+
+[node name="Ball" type="CharacterBody2D" parent="."]
+
+[node name="Ball_col" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("CircleShape2D_uwrxv")
+
+[node name="Brick_map" type="TileMapLayer" parent="."]
