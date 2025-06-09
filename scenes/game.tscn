@@ -1,19 +1,46 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjskas4066w12"]
+[gd_scene load_steps=5 format=3 uid="uid://cjskas4066w12"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8cj0n"]
+[ext_resource type="PackedScene" uid="uid://q00kh380a6v6" path="res://scenes/paddle.tscn" id="1_uwrxv"]
+[ext_resource type="PackedScene" uid="uid://cddrgxmurkwtk" path="res://scenes/ball.tscn" id="2_yqjtg"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_uwrxv"]
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_lbhrr"]
+b = Vector2(0, 400)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_iywne"]
+b = Vector2(0, 300)
 
 [node name="Game" type="Node2D"]
 
-[node name="Paddle" type="CharacterBody2D" parent="."]
+[node name="Paddle" parent="." instance=ExtResource("1_uwrxv")]
+position = Vector2(150, 350)
+motion_mode = 1
 
-[node name="Paddle_col" type="CollisionShape2D" parent="Paddle"]
-shape = SubResource("RectangleShape2D_8cj0n")
+[node name="Ball" parent="." instance=ExtResource("2_yqjtg")]
+position = Vector2(161, 39)
 
-[node name="Ball" type="CharacterBody2D" parent="."]
+[node name="Walls" type="Node" parent="."]
 
-[node name="Ball_col" type="CollisionShape2D" parent="Ball"]
-shape = SubResource("CircleShape2D_uwrxv")
+[node name="Wall" type="StaticBody2D" parent="Walls"]
 
-[node name="Brick_map" type="TileMapLayer" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall"]
+shape = SubResource("SegmentShape2D_lbhrr")
+
+[node name="Wall2" type="StaticBody2D" parent="Walls"]
+position = Vector2(300, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2"]
+shape = SubResource("SegmentShape2D_lbhrr")
+
+[node name="Wall3" type="StaticBody2D" parent="Walls"]
+position = Vector2(300, 400)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall3"]
+shape = SubResource("SegmentShape2D_iywne")
+
+[node name="Wall4" type="StaticBody2D" parent="Walls"]
+position = Vector2(300, 0)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall4"]
+shape = SubResource("SegmentShape2D_iywne")

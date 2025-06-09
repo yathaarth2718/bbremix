@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://q00kh380a6v6"]
+
+[ext_resource type="Script" uid="uid://jx262cjbp5nm" path="res://scripts/paddle.gd" id="1_3xiby"]
+[ext_resource type="Texture2D" uid="uid://cuv5rnm4jw17t" path="res://assets/platform.png" id="2_y7wee"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mo4dg"]
+radius = 4.0
+height = 66.0
+
+[node name="Paddle" type="CharacterBody2D"]
+script = ExtResource("1_3xiby")
+
+[node name="Paddle_sprite" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(2, 2)
+texture = ExtResource("2_y7wee")
+region_enabled = true
+region_rect = Rect2(0, 0, 4, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_mo4dg")
