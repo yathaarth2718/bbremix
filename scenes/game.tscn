@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjskas4066w12"]
+[gd_scene load_steps=9 format=3 uid="uid://cjskas4066w12"]
 
+[ext_resource type="Script" uid="uid://bcusb1ta84xgh" path="res://scripts/game.gd" id="1_iywne"]
 [ext_resource type="PackedScene" uid="uid://q00kh380a6v6" path="res://scenes/paddle.tscn" id="1_uwrxv"]
-[ext_resource type="PackedScene" uid="uid://cddrgxmurkwtk" path="res://scenes/ball.tscn" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://ckh5dob3txeyp" path="res://scripts/game_manager.gd" id="2_p57ef"]
+[ext_resource type="Texture2D" uid="uid://cl34lu8yfloj" path="res://assets/background.png" id="3_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://di88r0h8w5600" path="res://scenes/brick.tscn" id="5_iywne"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_lbhrr"]
 b = Vector2(0, 400)
@@ -9,38 +12,91 @@ b = Vector2(0, 400)
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_iywne"]
 b = Vector2(0, 300)
 
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_u5sy4"]
+a = Vector2(1, 400)
+b = Vector2(297, 400)
+
 [node name="Game" type="Node2D"]
+script = ExtResource("1_iywne")
+
+[node name="GameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_p57ef")
+
+[node name="life_counter" type="Label" parent="GameManager"]
+offset_right = 89.0
+offset_bottom = 23.0
+scale = Vector2(0.5, 0.5)
+text = "Lives left: 3"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Paddle" parent="." instance=ExtResource("1_uwrxv")]
+z_index = 1
 position = Vector2(150, 350)
 motion_mode = 1
 
-[node name="Ball" parent="." instance=ExtResource("2_yqjtg")]
-position = Vector2(161, 39)
-
 [node name="Walls" type="Node" parent="."]
 
-[node name="Wall" type="StaticBody2D" parent="Walls"]
+[node name="left_wall" type="StaticBody2D" parent="Walls"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/left_wall"]
 shape = SubResource("SegmentShape2D_lbhrr")
 
-[node name="Wall2" type="StaticBody2D" parent="Walls"]
+[node name="right_walll" type="StaticBody2D" parent="Walls"]
 position = Vector2(300, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/right_walll"]
 shape = SubResource("SegmentShape2D_lbhrr")
 
-[node name="Wall3" type="StaticBody2D" parent="Walls"]
-position = Vector2(300, 400)
-rotation = 1.5708
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall3"]
-shape = SubResource("SegmentShape2D_iywne")
-
-[node name="Wall4" type="StaticBody2D" parent="Walls"]
+[node name="top_wall" type="StaticBody2D" parent="Walls"]
 position = Vector2(300, 0)
 rotation = 1.5708
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/top_wall"]
 shape = SubResource("SegmentShape2D_iywne")
+
+[node name="background" type="CanvasLayer" parent="Walls"]
+layer = -1
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/background"]
+position = Vector2(150, 200)
+texture = ExtResource("3_lnu2h")
+
+[node name="bottom_wall" type="Area2D" parent="Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/bottom_wall"]
+position = Vector2(1, 0)
+shape = SubResource("SegmentShape2D_u5sy4")
+
+[node name="Timer" type="Timer" parent="Walls/bottom_wall"]
+one_shot = true
+
+[node name="Bricks" type="Node2D" parent="."]
+
+[node name="Brick" parent="Bricks" instance=ExtResource("5_iywne")]
+position = Vector2(56, 146)
+
+[node name="Brick2" parent="Bricks" instance=ExtResource("5_iywne")]
+position = Vector2(89, 146)
+
+[node name="Brick3" parent="Bricks" instance=ExtResource("5_iywne")]
+position = Vector2(122, 146)
+
+[node name="Brick4" parent="Bricks" instance=ExtResource("5_iywne")]
+position = Vector2(122, 146)
+
+[node name="Brick5" parent="Bricks" instance=ExtResource("5_iywne")]
+position = Vector2(155, 146)
+
+[node name="Brick6" parent="Bricks" instance=ExtResource("5_iywne")]
+position = Vector2(188, 146)
+
+[node name="Brick7" parent="Bricks" instance=ExtResource("5_iywne")]
+position = Vector2(221, 146)
+
+[node name="Brick8" parent="Bricks" instance=ExtResource("5_iywne")]
+position = Vector2(254, 146)
+
+[connection signal="body_entered" from="Walls/bottom_wall" to="." method="_on_bottom_wall_body_entered"]
+[connection signal="timeout" from="Walls/bottom_wall/Timer" to="." method="_on_timer_timeout"]
